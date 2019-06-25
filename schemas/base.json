@@ -1,0 +1,52 @@
+{
+"name" : {
+  "type" :  "string",
+  "title" :  "Name",
+  "inputAs" : "text",
+  "validateAs" : "text"
+},
+"url" : {
+  "type" :  "string",
+  "title" :  "URL",
+  "inputAs" : "text",
+  "validateAs" : "url"
+},
+"tagline" : {
+  "type" :  "string",
+  "title" :  "Tagline",
+  "inputAs" : "text",
+  "validateAs" : "text"
+},
+"mission" : {
+  "type" :  "string",
+  "maxLength" : 1000,
+  "title" :  "Mission",
+  "inputAs" : "text",
+  "validateAs" : "text"
+},
+"nodeTypes" : {
+  "type" :  "string",
+  "title" :  "Organization types",
+  "options" : ["co-op", "social enterprise", "community", "ecovillage", "alliance", "network", "federation", "farm", "school"],
+  "multiple" : true,
+  "validateAs" : "text",
+  "inputAs" : "text"
+},
+"location" : {
+  "inputAs" :  "location",
+  "title" :  "Location",
+  "validateAs" : "text"
+},
+"logo" : {
+  "type" :  "string",
+  "title" :  "Logo",
+  "inputAs" : "image",
+  "validateAs" : "url"
+},
+"feed" : {
+  "type" : "string",
+  "title" : "RSS feed URL",
+  "inputAs" : "text",
+  "validateAs" : "text"
+}
+}

@@ -1,0 +1,191 @@
+<?php
+
+
+
+/**
+ * The admin-specific functionality of the plugin.
+ */
+class Murmurations_Admin {
+
+	private $plugin_name;
+	private $version;
+  public $notices = array();
+
+	public function __construct( $plugin_name, $version ) {
+
+		$this->plugin_name = $plugin_name;
+		$this->version = $version;
+    $this->core = new Murmurations_Core();
+
+	}
+
+	/*
+	 * Register the stylesheets for the admin area.
+	 */
+	public function enqueue_styles() {
+
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/murmurations-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/awesomplete.css');
+
+	}
+
+	public function enqueue_scripts() {
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/murmurations-admin.js');
+
+    wp_enqueue_script( $this->plugin_name."_awesomeplete", plugin_dir_url( __FILE__ ) . 'js/awesomplete.min.js',array( 'jquery' ), $this->version, false );
+
+    wp_enqueue_media();
+
+	}
+
+  /**
+	 * Register the settings for the admin area. (Currently unused, since we're avoiding the settings API for now)
+	 */
+  public function register_settings() {
+    llog('Registering settings in admin class...');
+
+  }
+
+  public function register_admin_page() {
+
+      llog("Registering admin page...");
+
+      $page_title = 'Murmurations';
+      $menu_title = 'Murmurations';
+      $capability = 'edit_posts';
+      $menu_slug = 'murmurations';
+      $function = array($this,'show_admin_page');
+      $icon_url = '';
+      $position = 24;
+
+      add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+  }
+
+  public function show_admin_page(){
+
+    // Process form data
+    if (isset($_POST['murmurations'])) {
+      $schema = $this->core->load_schema();
+      $murm_post_data = $_POST['murmurations'];
+
+      // Check the WP nonce
+      check_admin_referer( 'murmurations_admin_form');
+
+      // Form will send the attachment ID if image has been edited...
+      if($murm_post_data['logo']){
+        if(is_numeric($murm_post_data['logo'])){
+          $murm_post_data['logo'] = wp_get_attachment_url($murm_post_data['logo']);
+        }
+      }
+
+      foreach ($murm_post_data as $key => $value) {
+        $murm_post_data[$key] = trim($value);
+      }
+
+      // Trim trailing commas from nodeTypes
+      if(substr($murm_post_data['nodeTypes'],-1) == ','){
+        $murm_post_data['nodeTypes'] = substr($murm_post_data['nodeTypes'],0,(strlen($murm_post_data['nodeTypes'])-1));
+      }
+
+      llog($murm_post_data,"POST");
+
+      $val = new Murmurations_Validator();
+
+      $invalid = false;
+
+      foreach ($schema as $key => $field) {
+        if($murm_post_data[$key]){
+          if($val->isValid($field['validateAs'],$murm_post_data[$key])){
+            $save_data[$key] = $murm_post_data[$key];
+          }else{
+            $this->set_notice('Invalid input field: '.$field['title'],'error');
+            $invalid = true;
+          }
+        }
+      }
+
+      if(!$invalid){
+        $this->core->save_data($save_data);
+        $this->set_notice('Murmurations data saved','success');
+      }
+  }
+
+    echo "<h1>Murmurations</h1>";
+
+    echo $this->show_notices();
+
+    $this->show_admin_form($murm_post_data);
+
+  }
+
+  public function show_admin_form($post_data = false){
+
+    $schema = $this->core->load_schema();
+    $data = $this->core->load_data();
+
+    llog($schema,"Schema");
+    llog($data,"Data");
+
+    ?>
+    <form method="POST">
+    <?php
+    wp_nonce_field( 'murmurations_admin_form' );
+
+    foreach ($schema as $key => $field) {
+      $name = "murmurations[$key]";
+      $field_settings = array(
+        'type' => $field['type'],
+        'inputAs' => $field['inputAs'],
+        'current_value' => $data[$key],
+        'title' => $field['title'],
+        'multiple' => $field['multiple'],
+        'options' => $field['options'],
+        'maxLength' => $field['maxLength'],
+      );
+
+      if($field['multiple'] && $field['inputAs'] == 'text'){
+        $field_settings['autocomplete'] = true;
+      }
+
+      $field = new Murmurations_Field($name, $field_settings);
+
+      echo $field->show();
+    }
+    ?>
+    <input type="submit" value="Save" class="button button-primary button-large">
+</form>
+<?php
+
+  }
+
+  public function set_notice($message,$type){
+
+    $this->notices[] = array('message'=>$message,'type'=>$type);
+    $_SESSION['murmurations_notices'] = $this->notices;
+
+  }
+
+  function get_notices(){
+    $notices = array();
+    if(count($this->notices) > 0){
+      $notices = $this->notices;
+    }else if(isset($_SESSION['murmurations_notices'])){
+      $notices = $_SESSION['murmurations_notices'];
+    }
+    unset($_SESSION['murmurations_notices']);
+    return $notices;
+  }
+
+  function show_notices(){
+    $notices = $this->get_notices();
+    foreach ($notices as $notice) {
+      ?>
+      <div class="notice notice-<?php echo $notice['type']; ?>">
+					<p><?php echo $notice['message']; ?></p>
+			</div>
+
+      <?php
+    }
+
+  }
+}
