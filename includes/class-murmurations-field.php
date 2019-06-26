@@ -42,8 +42,6 @@ class Murmurations_Field {
 
     $this->name = $name;
 
-    llog($settings,"New form field with settings");
-
   }
 
 

@@ -2,13 +2,12 @@
 
 /**
  * Plugin Name:       Murmurations
- * Plugin URI:        murmurationsprotocol.org
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
- * Author:            Murmurations
- * Author URI:        uri
+ * Plugin URI:        Murmurations.network
+ * Description:       Making movement visible
+ * Version:           0.0.1
+ * Author:            A. McKenty / Photosynthesis
+ * Author URI:        Photosynthesis.ca
  * License:           Peer Production License
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       murmurations
  * Domain Path:       /languages
  */
@@ -18,9 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-LazyLog::setSetting('bufferLog',true);
-
-define('MURMURATIONS_VERSION', '1.0.0');
+define('MURMURATIONS_VERSION', '0.0.1');
 define('MURM_DATA_OPT_KEY', 'murmurations_data');
 define('MURM_SCHEMA_OPT_KEY', 'murmurations_schema');
 define('MURM_SETTINGS_OPT_KEY', 'murmurations_settings');
@@ -41,6 +38,10 @@ register_deactivation_hook( __FILE__, 'deactivate_murmurations' );
 
 /* Include the wordpress class */
 require plugin_dir_path( __FILE__ ) . 'includes/class-murmurations-wp.php';
+
+
+/* Temporary development only logging activity */
+LazyLog::setSetting('bufferLog',true);
 
 add_action('wp_footer', 'murms_flush_log');
 add_action('admin_footer', 'murms_flush_log');

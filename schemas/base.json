@@ -33,9 +33,21 @@
   "inputAs" : "text"
 },
 "location" : {
-  "inputAs" :  "location",
+  "inputAs" :  "text",
+  "type" :  "string",
+  "maxLength" : 1000,
   "title" :  "Location",
   "validateAs" : "text"
+},
+"lat" : {
+  "inputAs" :  "none",
+  "type" :  "float",
+  "validateAs" : "numeric"
+},
+"lon" : {
+  "inputAs" :  "none",
+  "type" :  "float",
+  "validateAs" : "numeric"
 },
 "logo" : {
   "type" :  "string",

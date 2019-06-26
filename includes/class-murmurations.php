@@ -10,7 +10,7 @@ class Murmurations_Core {
   var $schema;
   var $data;
   var $settings = array(
-    'index_url' => 'http://localhost/projects/murmurations/murmurations-index.php',
+    'index_url' => 'http://localhost/projects/murmurations//murmurations-index/murmurations-index.php',
     'plugin_context' => 'wordpress',
     'api_path' => 'murmurations/v1/get/node',
   );
@@ -48,11 +48,13 @@ class Murmurations_Core {
 
   public function save_data($data){
 
+    llog($data,"Saving data to local DB");
+
     // Save the local node data
     // Should be call to environment class
     $result = update_option(MURM_DATA_OPT_KEY,$data);
     if(!$result){
-      $this->log_error("Failed to save node data to local DB");
+      llog("No change or failed to save option value");
     }
 
     $url = $this->settings['index_url'];

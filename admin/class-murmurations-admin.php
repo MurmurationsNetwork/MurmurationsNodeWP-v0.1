@@ -65,49 +65,8 @@ class Murmurations_Admin {
 
     // Process form data
     if (isset($_POST['murmurations'])) {
-      $schema = $this->core->load_schema();
-      $murm_post_data = $_POST['murmurations'];
+      $this->process_admin_form();
 
-      // Check the WP nonce
-      check_admin_referer( 'murmurations_admin_form');
-
-      // Form will send the attachment ID if image has been edited...
-      if($murm_post_data['logo']){
-        if(is_numeric($murm_post_data['logo'])){
-          $murm_post_data['logo'] = wp_get_attachment_url($murm_post_data['logo']);
-        }
-      }
-
-      foreach ($murm_post_data as $key => $value) {
-        $murm_post_data[$key] = trim($value);
-      }
-
-      // Trim trailing commas from nodeTypes
-      if(substr($murm_post_data['nodeTypes'],-1) == ','){
-        $murm_post_data['nodeTypes'] = substr($murm_post_data['nodeTypes'],0,(strlen($murm_post_data['nodeTypes'])-1));
-      }
-
-      llog($murm_post_data,"POST");
-
-      $val = new Murmurations_Validator();
-
-      $invalid = false;
-
-      foreach ($schema as $key => $field) {
-        if($murm_post_data[$key]){
-          if($val->isValid($field['validateAs'],$murm_post_data[$key])){
-            $save_data[$key] = $murm_post_data[$key];
-          }else{
-            $this->set_notice('Invalid input field: '.$field['title'],'error');
-            $invalid = true;
-          }
-        }
-      }
-
-      if(!$invalid){
-        $this->core->save_data($save_data);
-        $this->set_notice('Murmurations data saved','success');
-      }
   }
 
     echo "<h1>Murmurations</h1>";
@@ -123,15 +82,15 @@ class Murmurations_Admin {
     $schema = $this->core->load_schema();
     $data = $this->core->load_data();
 
-    llog($schema,"Schema");
-    llog($data,"Data");
-
     ?>
     <form method="POST">
     <?php
     wp_nonce_field( 'murmurations_admin_form' );
 
     foreach ($schema as $key => $field) {
+
+      if($field['inputAs'] == 'none') continue;
+
       $name = "murmurations[$key]";
       $field_settings = array(
         'type' => $field['type'],
@@ -158,7 +117,73 @@ class Murmurations_Admin {
 
   }
 
-  public function set_notice($message,$type){
+  /* Process node data saved from the admin page */
+  public function process_admin_form(){
+
+    // Load the schema to measure against
+    $schema = $this->core->load_schema();
+
+    $murm_post_data = $_POST['murmurations'];
+
+    // Check the WP nonce
+    check_admin_referer( 'murmurations_admin_form');
+
+    // Form will send the attachment ID if image has been edited, needs to be converted to URL
+    if($murm_post_data['logo']){
+      if(is_numeric($murm_post_data['logo'])){
+        $murm_post_data['logo'] = wp_get_attachment_url($murm_post_data['logo']);
+      }
+    }
+
+    foreach ($murm_post_data as $key => $value) {
+      $murm_post_data[$key] = trim($value);
+    }
+
+    // Trim trailing commas from nodeTypes which Awesomecomplete leaves there
+    // TODO: Find a better autocomplete library...
+    if(substr($murm_post_data['nodeTypes'],-1) == ','){
+      $murm_post_data['nodeTypes'] = substr($murm_post_data['nodeTypes'],0,(strlen($murm_post_data['nodeTypes'])-1));
+    }
+
+    llog($murm_post_data,"POST");
+
+    // Validate the POST data
+    $val = new Murmurations_Validator();
+
+    $invalid = false;
+
+    foreach ($schema as $key => $field) {
+      if($murm_post_data[$key]){
+        if($val->isValid($field['validateAs'],$murm_post_data[$key])){
+          $save_data[$key] = $murm_post_data[$key];
+        }else{
+          $this->set_notice('Invalid input field: '.$field['title'],'error');
+          $invalid = true;
+        }
+      }
+    }
+
+    if(!$invalid){
+
+      if($save_data['location']){
+
+        llog($save_data['location'],"Geocoding");
+
+        $geo = new Murmurations_Geocode($save_data['location']);
+        if($geo->getCoordinates()){
+          $save_data['lat'] = $geo->lat;
+          $save_data['lon'] = $geo->lon;
+        }else{
+          $this->set_notice("Couldn't get coordinates for location. Try a more specific address.",'warn');
+        }
+      }
+
+      $this->core->save_data($save_data);
+      $this->set_notice('Murmurations data saved','success');
+    }
+  }
+
+  public function set_notice($message,$type = 'notice'){
 
     $this->notices[] = array('message'=>$message,'type'=>$type);
     $_SESSION['murmurations_notices'] = $this->notices;
