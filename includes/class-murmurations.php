@@ -10,7 +10,7 @@ class Murmurations_Core {
   var $schema;
   var $data;
   var $settings = array(
-    'index_url' => 'http://localhost/projects/murmurations//murmurations-index/murmurations-index.php',
+    'index_url' => 'https://murmurations.network/api/index',
     'plugin_context' => 'wordpress',
     'api_path' => 'murmurations/v1/get/node',
   );

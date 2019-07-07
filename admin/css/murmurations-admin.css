@@ -14,7 +14,11 @@
    float:left;
  }
 
- .murmurations-admin-field input,  .murmurations-admin-field textarea{
+ .murmurations-admin-field input,  .murmurations-admin-field textarea,  .murmurations-admin-field div.awesomeplete{
    width: 50%;
    max-width: 500px;
+ }
+
+ input.autocomplete-multiple{
+   width:500px;
  }

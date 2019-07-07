@@ -55,6 +55,12 @@
   "inputAs" : "image",
   "validateAs" : "url"
 },
+"networks" : {
+  "type" :  "string",
+  "title" :  "Networks",
+  "inputAs" : "text",
+  "validateAs" : "text"
+},
 "feed" : {
   "type" : "string",
   "title" : "RSS feed URL",

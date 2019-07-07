@@ -25,7 +25,7 @@ class Murmurations_Admin {
 	public function enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/murmurations-admin.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/awesomplete.css');
+		wp_enqueue_style( 'murmurations_awesomeplete', plugin_dir_url( __FILE__ ) . 'css/awesomplete.css');
 
 	}
 
@@ -66,8 +66,7 @@ class Murmurations_Admin {
     // Process form data
     if (isset($_POST['murmurations'])) {
       $this->process_admin_form();
-
-  }
+    }
 
     echo "<h1>Murmurations</h1>";
 

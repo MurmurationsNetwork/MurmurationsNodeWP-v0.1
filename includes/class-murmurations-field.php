@@ -99,7 +99,7 @@ class Murmurations_Field {
     }
 
     if( intval($image_id) > 0 ) {
-        $image = wp_get_attachment_image( $image_id, 'small', false, array( 'id' => 'murmurations-preview-image' ) );
+        $image = wp_get_attachment_image( $image_id, 'medium', false, array( 'id' => 'murmurations-preview-image' ) );
     } else {
         $image = '<img id="murmurations-preview-image" src="'.$this->settings['current_value'].'" />';
     }

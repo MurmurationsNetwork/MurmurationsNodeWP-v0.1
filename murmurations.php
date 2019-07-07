@@ -38,7 +38,9 @@ register_deactivation_hook( __FILE__, 'deactivate_murmurations' );
 
 /* Include the wordpress class */
 require plugin_dir_path( __FILE__ ) . 'includes/class-murmurations-wp.php';
-
+if(!class_exists('LazyLog')){
+  require plugin_dir_path( __FILE__ ) . 'includes/lazylog.php';
+}
 
 /* Temporary development only logging activity */
 LazyLog::setSetting('bufferLog',true);
