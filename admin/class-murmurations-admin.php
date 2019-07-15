@@ -69,6 +69,9 @@ class Murmurations_Admin {
     }
 
     echo "<h1>Murmurations</h1>";
+    echo "<h3>Edit and add information about your organisation or project </h3>";
+
+    llog(get_tags(array('orderby'=>'count','order' => 'DESC')));
 
     echo $this->show_notices();
 

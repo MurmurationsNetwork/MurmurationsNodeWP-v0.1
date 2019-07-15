@@ -3,26 +3,32 @@
   "type" :  "string",
   "title" :  "Name",
   "inputAs" : "text",
-  "validateAs" : "text"
+  "validateAs" : "text",
+  "required" : "true",
+  "comment" : ""
 },
 "url" : {
   "type" :  "string",
   "title" :  "URL",
   "inputAs" : "text",
-  "validateAs" : "url"
+  "validateAs" : "url",
+  "required" : "true",
+  "comment" : ""
 },
 "tagline" : {
   "type" :  "string",
   "title" :  "Tagline",
   "inputAs" : "text",
-  "validateAs" : "text"
+  "validateAs" : "text",
+  "comment" : ""
 },
 "mission" : {
   "type" :  "string",
   "maxLength" : 1000,
   "title" :  "Mission",
   "inputAs" : "text",
-  "validateAs" : "text"
+  "validateAs" : "text",
+  "comment" : ""
 },
 "nodeTypes" : {
   "type" :  "string",
@@ -30,14 +36,17 @@
   "options" : ["co-op", "social enterprise", "community", "ecovillage", "alliance", "network", "federation", "farm", "school"],
   "multiple" : true,
   "validateAs" : "text",
-  "inputAs" : "text"
+  "inputAs" : "text",
+  "required" : "true",
+  "comment" : ""
 },
 "location" : {
   "inputAs" :  "text",
   "type" :  "string",
   "maxLength" : 1000,
   "title" :  "Location",
-  "validateAs" : "text"
+  "validateAs" : "text",
+  "comment" : ""
 },
 "lat" : {
   "inputAs" :  "none",
@@ -53,18 +62,28 @@
   "type" :  "string",
   "title" :  "Logo",
   "inputAs" : "image",
-  "validateAs" : "url"
+  "validateAs" : "url",
+  "comment" : ""
 },
 "networks" : {
   "type" :  "string",
   "title" :  "Networks",
   "inputAs" : "text",
-  "validateAs" : "text"
+  "validateAs" : "text",
+  "comment" : ""
+},
+"tags" : {
+  "type" :  "string",
+  "title" :  "Tags",
+  "inputAs" : "text",
+  "validateAs" : "text",
+  "comment" : ""
 },
 "feed" : {
   "type" : "string",
   "title" : "RSS feed URL",
   "inputAs" : "text",
-  "validateAs" : "text"
+  "validateAs" : "text",
+  "comment" : ""
 }
 }
