@@ -14,7 +14,7 @@ class Murmurations_Field {
     'options' => null,
     'multiple' => false,
     'autocomplete' => false,
-    'element_id' => false,
+    'elementId' => false,
     'classes' => array(),
     'maxLength' => 500
   );
@@ -41,6 +41,12 @@ class Murmurations_Field {
     }
 
     $this->name = $name;
+
+    if($this->settings['elementId']){
+      $this->element_id = $this->settings['elementId'];
+    }else{
+      $this->element_id = $this->name;
+    }
 
   }
 
@@ -74,13 +80,13 @@ class Murmurations_Field {
 
   public function show_text(){
     if((int) $this->settings['maxLength'] > 500){
-      $html = '<textarea class="'.$this->css_classes.'" name="'.$this->name.'" id="'.$this->name.'">';
+      $html = '<textarea class="'.$this->css_classes.'" name="'.$this->name.'" id="'.$this->element_id.'">';
       $html .= $this->settings['current_value'];
       $html .= '</textarea>'."\n";
 
       return $html;
     }else{
-      $html = '<input type="text" class="'.$this->css_classes.'" name="'.$this->name.'" id="'.$this->name.'" value="'.$this->settings['current_value'].'" ';
+      $html = '<input type="text" class="'.$this->css_classes.'" name="'.$this->name.'" id="'.$this->element_id.'" value="'.$this->settings['current_value'].'" ';
 
       if($this->datalist){
         $html .= 'data-list="'.$this->datalist.'" ';

@@ -47,7 +47,7 @@ class Murmurations_Activator {
 	}
 
   public function get_site_tags(){
-    $tags = get_tags(array('orderby'=>'count','order' => 'DESC','number' => 10));
+    $tags = get_tags(array('orderby'=>'count','order' => 'DESC','number' => 7));
     $tags_a = array();
     foreach ($tags as $tag) {
       $tags_a[] = $tag->name;

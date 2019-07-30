@@ -27,6 +27,8 @@ class Murmurations_WP {
 	 */
 	protected $version;
 
+  public $core; // Holds the core clas instance (this all needs to be seriously rethought)
+
 	public function __construct() {
 		if ( defined( 'MURMURATIONS_VERSION' ) ) {
 			$this->version = MURMURATIONS_VERSION;
@@ -50,7 +52,11 @@ class Murmurations_WP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations-field.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-murmurations-admin.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-murmurations-public.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations-geocode.php';
+
+    if(!class_exists('Murmurations_Geocode')){
+  		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations-geocode.php';
+    }
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations.php';
 
 		$this->loader = new Murmurations_Loader();
@@ -75,6 +81,12 @@ class Murmurations_WP {
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 
 	}
+
+  /* Wrapper, because for now core methods can't be called directly... */
+  public function make_addon_fields($network_names){
+    //return "In the env ajax target function";
+    return $this->core->make_addon_fields($networks);
+  }
 
 	private function define_public_hooks() {
 

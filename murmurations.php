@@ -4,7 +4,7 @@
  * Plugin Name:       Murmurations
  * Plugin URI:        Murmurations.network
  * Description:       Making movement visible
- * Version:           0.0.1
+ * Version:           0.1.0-alpha
  * Author:            A. McKenty / Photosynthesis
  * Author URI:        Photosynthesis.ca
  * License:           Peer Production License
@@ -69,10 +69,24 @@ function murmurations_get_image() {
     }
 }
 
+
+// Ajax action to get add-on fields
+add_action( 'wp_ajax_murmurations_get_addon_fields', 'murmurations_get_addon_fields'   );
+
+function murmurations_get_addon_fields() {
+  if(isset($_GET['networks'])){
+    $murmurations_core_instance = new Murmurations_Core();
+    $html = $murmurations_core_instance->make_addon_fields($_GET['networks']);
+    wp_send_json_success($html);
+  }else{
+    wp_send_json_error();
+  }
+}
+
 function run_murmurations_wp() {
 
-	$plugin = new Murmurations_WP();
-	$plugin->run();
+	$murmurations_env_instance = new Murmurations_WP();
+	$murmurations_env_instance->run();
 
 }
 run_murmurations_wp();

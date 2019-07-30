@@ -83,6 +83,18 @@ class Murmurations_Admin {
 
     $schema = $this->core->load_schema();
     $data = $this->core->load_data();
+    $networks = $this->core->load_networks();
+
+    foreach ($networks as $url => $network) {
+      $network_options[] = $network['name'];
+    }
+
+    llog($network_options,"Network options");
+
+    $schema['networks']['options'] = $network_options;
+    $schema['networks']['multiple'] = true;
+
+    llog($schema);
 
     ?>
     <form method="POST">
@@ -94,6 +106,7 @@ class Murmurations_Admin {
       if($field['inputAs'] == 'none') continue;
 
       $name = "murmurations[$key]";
+
       $field_settings = array(
         'type' => $field['type'],
         'inputAs' => $field['inputAs'],
@@ -102,6 +115,7 @@ class Murmurations_Admin {
         'multiple' => $field['multiple'],
         'options' => $field['options'],
         'maxLength' => $field['maxLength'],
+        'elementId' => 'murmurations_'.$key
       );
 
       if($field['multiple'] && $field['inputAs'] == 'text'){
@@ -113,17 +127,31 @@ class Murmurations_Admin {
       echo $field->show();
     }
     ?>
+    <div id="addon-fields">
+      <?php
+      if($data['networks']){
+        echo $this->core->make_addon_fields($data['networks']);
+      }
+      ?>
+    </div>
     <input type="submit" value="Save" class="button button-primary button-large">
 </form>
 <?php
 
   }
 
+
+
   /* Process node data saved from the admin page */
   public function process_admin_form(){
 
+    // Load the networks list
+    //TODO: This is not a good spot for this, and/or it should be conditional on difference between current and new networks data...
+    $networks = $this->core->load_networks();
+
     // Load the schema to measure against
     $schema = $this->core->load_schema();
+
 
     $murm_post_data = $_POST['murmurations'];
 
@@ -184,6 +212,8 @@ class Murmurations_Admin {
       $this->set_notice('Murmurations data saved','success');
     }
   }
+
+
 
   public function set_notice($message,$type = 'notice'){
 

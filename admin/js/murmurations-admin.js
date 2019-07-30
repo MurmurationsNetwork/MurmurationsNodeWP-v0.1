@@ -75,7 +75,31 @@
                        image_frame.open();
         });
 
+        /* Get add-on form html when networks list is updated */
+        $('input#murmurations_networks').blur(function(e) {
+
+          var networks = $('input#murmurations_networks').val();
+
+          var data = {
+              action: 'murmurations_get_addon_fields',
+              networks: networks
+          };
+
+          alert("Doing AJAX request with data"+data);
+
+          jQuery.get(ajaxurl, data, function(response) {
+              console.log("Logging AJAX response");
+              console.log(response);
+              if(response.success === true) {
+                jQuery('#addon-fields').html(response.data);
+              }
+          });
+
+        });
+
      });
+
+
 
 	/**
 	 * Admin-facing JavaScript
@@ -112,4 +136,8 @@ function Refresh_Image(the_id){
                 jQuery('#murmurations-preview-image').replaceWith( response.data.image );
             }
         });
+}
+
+function addAddOnSchemaFormFields(id,html){
+  jQuery('#addon-fields').html(html);
 }
