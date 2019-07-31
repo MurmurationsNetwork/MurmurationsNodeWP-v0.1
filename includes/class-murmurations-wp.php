@@ -57,6 +57,7 @@ class Murmurations_WP {
   		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations-geocode.php';
     }
 
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations-environment.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-murmurations.php';
 
 		$this->loader = new Murmurations_Loader();

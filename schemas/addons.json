@@ -1,0 +1,1 @@
+{"legalType":{"type":"string","title":"Legal entity type","inputAs":"text","validateAs":"text","comment":"Type of legal entity that your organization or project uses"},"members":{"type":"string","title":"Number of members in your organization","inputAs":"text","validateAs":"text","comment":"Enter number of members in your organization"}}

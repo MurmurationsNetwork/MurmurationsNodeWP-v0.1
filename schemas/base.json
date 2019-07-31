@@ -72,6 +72,13 @@
   "validateAs" : "text",
   "comment" : ""
 },
+"allies" : {
+  "type" :  "string",
+  "title" :  "Allied organization or project web addresses",
+  "inputAs" : "text",
+  "validateAs" : "text",
+  "comment" : "Enter the URLs of three or more allied organizations or projects, separated by commas"
+},
 "tags" : {
   "type" :  "string",
   "title" :  "Tags",

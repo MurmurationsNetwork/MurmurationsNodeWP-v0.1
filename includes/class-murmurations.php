@@ -5,7 +5,7 @@
  * This class gets instantiated from within the public or admin callback call stack
 */
 
-class Murmurations_Core {
+class Murmurations_Core extends Murmurations_Environment{
 
   var $schema;
   var $data;
@@ -14,6 +14,8 @@ class Murmurations_Core {
     //'index_url' => 'https://murmurations.network/api/index',
     'plugin_context' => 'wordpress',
     'api_path' => 'murmurations/v1/get/node',
+    'addon_fields_file' => 'schemas/addons.json',
+    'base_schema_file' => 'schemas/base.json'
   );
 
 	public function __construct() {
@@ -29,6 +31,23 @@ class Murmurations_Core {
       return false;
     }
     return $schema;
+  }
+
+  public function load_schemas(){
+    $schemas = $this->json_to_array(file_get_contents($this->get_base_path().$this->settings['base_schema_file']));
+    $addons = $this->json_to_array(file_get_contents($this->get_base_path().$this->settings['addon_fields_file']));
+
+    foreach ($addons as $key => $field) {
+      $schemas[$key] = $field;
+    }
+
+    if($schemas){
+      $this->schemas = $schemas;
+      return $schemas;
+    }else{
+      $this->log_error('Failed to load murmurations schema');
+      return false;
+    }
   }
 
   public function load_data(){
@@ -109,9 +128,11 @@ class Murmurations_Core {
   }
 
   /* Generate addon fields based on network memberships list */
-  // TODO:
-  // Local data at various steps in this for performance
-  // Possibly break up into multiple methods
+  /* This needs to be mofidied so that:
+      When the networks value is changed, it saves the schema locally
+  */
+
+
 
   public function make_addon_fields($network_names_str){
 
@@ -120,10 +141,8 @@ class Murmurations_Core {
     $schemas = array();
     $html = '';
 
-    // Load the network list from the index
+    // Load the network list from the index TODO: cache this locally
     $network_list = $this->load_networks();
-
-    $test_out = '';
 
     // Match network names to schema URLs
     foreach ($network_list as $url => $network) {
@@ -133,16 +152,23 @@ class Murmurations_Core {
       }
     }
 
+
+
     // Query the networks to collect their schemas
     foreach ($network_urls as $schema_url) {
       $schemas[] = $this->get_network_schema($schema_url);
     }
+
+    // Get current values from the DB. This is bad here, because it's duplicating what's already happening in the main admin form function. TODO: rewrite this whole section so that it's all loaded normally, from the main function, when networks and schemas are locally saved, and this only happens when there's a change via ajax (which will eventually be replaced with the wizard interface for new installations anyway...)
+    $data = $this->load_data();
 
     foreach ($schemas as $schema) {
 
       //TODO: Query appropriate network for data on this node with which to prepopulate fields
 
       foreach ($schema as $key => $field) {
+
+        $this->save_addon_field($key,$field);
 
         if($field['inputAs'] == 'none') continue;
 
@@ -170,6 +196,21 @@ class Murmurations_Core {
     }
     return $html;
     /**/
+  }
+
+/* Save an addon field to the local addon schema file */
+  public function save_addon_field($key,$field){
+    if(!$this->addon_fields){
+      $this->addon_fields = $this->load_local_addon_fields();
+    }
+    $this->addon_fields[$key] = $field;
+    return file_put_contents($this->get_base_path().$this->settings['addon_fields_file'],json_encode($this->addon_fields));
+  }
+
+
+  /* Load addon fields from the local addon fields schema file */
+  public function load_local_addon_fields(){
+    return $this->json_to_array(file_get_contents($this->get_base_path().$this->settings['addon_fields_file']));
   }
 
   public function make_json_ld($data = false){

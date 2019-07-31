@@ -150,7 +150,7 @@ class Murmurations_Admin {
     $networks = $this->core->load_networks();
 
     // Load the schema to measure against
-    $schema = $this->core->load_schema();
+    $schema = $this->core->load_schemas();
 
 
     $murm_post_data = $_POST['murmurations'];
