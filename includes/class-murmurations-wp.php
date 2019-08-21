@@ -85,7 +85,6 @@ class Murmurations_WP {
 
   /* Wrapper, because for now core methods can't be called directly... */
   public function make_addon_fields($network_names){
-    //return "In the env ajax target function";
     return $this->core->make_addon_fields($networks);
   }
 

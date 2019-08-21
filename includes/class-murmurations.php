@@ -2,7 +2,7 @@
 
 /**
  * Core murmurations functionality, generally not WP-dependent
- * This class gets instantiated from within the public or admin callback call stack
+ * This class gets instantiated from within the public or admin callback call stack.
 */
 
 class Murmurations_Core extends Murmurations_Environment{
@@ -10,8 +10,7 @@ class Murmurations_Core extends Murmurations_Environment{
   var $schema;
   var $data;
   var $settings = array(
-    'index_url' => 'http://localhost/projects/murmurations/murmurations-index/murmurations-index.php',
-    //'index_url' => 'https://murmurations.network/api/index',
+    'index_url' => 'https://murmurations.network/api/index',
     'plugin_context' => 'wordpress',
     'api_path' => 'murmurations/v1/get/node',
     'addon_fields_file' => 'schemas/addons.json',
@@ -19,6 +18,12 @@ class Murmurations_Core extends Murmurations_Environment{
   );
 
 	public function __construct() {
+
+    // Local debugging. TODO: make this conditional on a "use local URLs" option value, rather than hard-coding it here. Or better yet, allow the index URL in general to be set via a config var, to allow the use of custom indexes.
+
+    if($_SERVER['host'] == 'localhost'){
+      $this->settings['index_url'] = 'http://localhost/projects/murmurations/murmurations-index/murmurations-index.php';
+    }
 
 	}
 
@@ -132,8 +137,6 @@ class Murmurations_Core extends Murmurations_Environment{
       When the networks value is changed, it saves the schema locally
   */
 
-
-
   public function make_addon_fields($network_names_str){
 
     $network_names = explode(',',$network_names_str);
@@ -151,8 +154,6 @@ class Murmurations_Core extends Murmurations_Environment{
         $network_urls[] = $network['schemaUrl'];
       }
     }
-
-
 
     // Query the networks to collect their schemas
     foreach ($network_urls as $schema_url) {
