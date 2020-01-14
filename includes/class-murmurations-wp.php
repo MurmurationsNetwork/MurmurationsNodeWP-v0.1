@@ -27,7 +27,7 @@ class Murmurations_WP {
 	 */
 	protected $version;
 
-  public $core; // Holds the core clas instance (this all needs to be seriously rethought)
+  public $core; // Holds the core class instance (this all needs to be seriously rethought)
 
 	public function __construct() {
 		if ( defined( 'MURMURATIONS_VERSION' ) ) {
@@ -92,10 +92,9 @@ class Murmurations_WP {
 
 		$plugin_public = new Murmurations_Public( $this->get_plugin_name(), $this->get_version() );
 
-		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-    
-    //$this->loader->add_action('wp_head',$plugin_public,'show_structured_data');
+    /* This is the former (and possibly future) location of JSON-LD output in the HTML using
+    $this->loader->add_action('wp_head',$plugin_public,'show_structured_data'), now replaced with API/file access.
+		*/
 
     $this->loader->add_action( 'rest_api_init',$plugin_public,'register_api_route');
 

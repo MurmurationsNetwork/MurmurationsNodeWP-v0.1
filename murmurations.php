@@ -38,20 +38,30 @@ register_deactivation_hook( __FILE__, 'deactivate_murmurations' );
 
 /* Include the wordpress class */
 require plugin_dir_path( __FILE__ ) . 'includes/class-murmurations-wp.php';
+
 if(!class_exists('LazyLog')){
   require plugin_dir_path( __FILE__ ) . 'includes/lazylog.php';
 }
 
-/* Temporary development only logging activity */
+/* Temporary development logging */
 LazyLog::setSetting('bufferLog',true);
 
-add_action('wp_footer', 'murms_flush_log');
-add_action('admin_footer', 'murms_flush_log');
+$murms_settings = get_option(MURM_SETTINGS_OPT_KEY);
 
-function murms_flush_log(){
-   echo "<div style=\"margin-left:200px;\">";
-   LazyLog::flush();
-   echo "</div>";
+llog($murms_settings,'Murmurations settings');
+
+if(is_array($murms_settings) && isset($murms_settings['debug_mode'])){
+  if($murms_settings['debug_mode'] == 'on'){
+
+    add_action('wp_footer', 'murms_flush_log');
+    add_action('admin_footer', 'murms_flush_log');
+
+    function murms_flush_log(){
+       echo "<div style=\"margin-left:200px;\">";
+       LazyLog::flush();
+       echo "</div>";
+    }
+  }
 }
 
 // Ajax action to refresh the logo image
