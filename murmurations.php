@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define('MURMURATIONS_VERSION', '0.0.1');
+define('MURMURATIONS_VERSION', '0.1.0-alpha');
 define('MURM_DATA_OPT_KEY', 'murmurations_data');
 define('MURM_SCHEMA_OPT_KEY', 'murmurations_schema');
 define('MURM_SETTINGS_OPT_KEY', 'murmurations_settings');
