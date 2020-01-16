@@ -1,24 +1,24 @@
-/**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
- */
 
- .murmurations-admin-field{
-   padding: 1.5em;
- }
+.murmurations-admin-field{
+ padding: 1.5em;
+}
 
 
- .murmurations-admin-field label{
-   width: 50%;
-   max-width: 150px;
-   float:left;
- }
+.murmurations-admin-field label{
+ width: 50%;
+ max-width: 150px;
+ float:left;
+}
 
- .murmurations-admin-field input,  .murmurations-admin-field textarea,  .murmurations-admin-field div.awesomeplete{
-   width: 50%;
-   max-width: 500px;
- }
+.murmurations-admin-field input,  .murmurations-admin-field textarea,  .murmurations-admin-field div.awesomeplete{
+ width: 50%;
+ max-width: 500px;
+}
 
- input.autocomplete-multiple{
-   width:500px;
- }
+input.autocomplete-multiple{
+ width:500px;
+}
+
+.murmurations-required label{
+  font-weight: bold;
+}

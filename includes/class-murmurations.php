@@ -14,14 +14,15 @@ class Murmurations_Core extends Murmurations_Environment{
     'plugin_context' => 'wordpress',
     'api_path' => 'murmurations/v1/get/node',
     'addon_fields_file' => 'schemas/addons.json',
-    'base_schema_file' => 'schemas/base.json'
+    'base_schema_file' => 'schemas/base.json',
+    'enable_networks' => 'false'
   );
 
 	public function __construct() {
 
     // Local debugging. TODO: make this conditional on a "use local URLs" option value, rather than hard-coding it here. Or better yet, allow the index URL in general to be set via a config var, to allow the use of custom indexes.
 
-    if($_SERVER['host'] == 'localhost'){
+    if($_SERVER['HTTP_HOST'] == 'localhost'){
       $this->settings['index_url'] = 'http://localhost/projects/murmurations/murmurations-index/murmurations-index.php';
     }
 
@@ -149,7 +150,6 @@ class Murmurations_Core extends Murmurations_Environment{
 
     // Match network names to schema URLs
     foreach ($network_list as $url => $network) {
-      //$test_out .= "Comparing $network[name] with ".print_r($network_names,true);
       if(in_array($network['name'],$network_names)){
         $network_urls[] = $network['schemaUrl'];
       }
@@ -276,10 +276,19 @@ class Murmurations_Core extends Murmurations_Environment{
 
     $result = curl_exec($ch);
 
-    if(!$result){
-      $this->log_error("CURL Error");
+    if($result === false){ // Actual cURL error
+      $this->log_error("cURL Error:".curl_error($ch));
+      $this->log_error("Connection attempted to:".$url);
+      $this->log_error("Fields sent:".$fields_string);
+      curl_close($ch);
+      return false;
+    }else if(!$result){ // Something probably went wrong, but not a cURL error
+      $this->log_error("Empty result returned from cURL request");
+      $this->log_error(curl_getinfo($ch));
+      curl_close($ch);
       return false;
     }else{
+      curl_close($ch);
       return $result;
     }
   }

@@ -69,8 +69,18 @@ class Murmurations_Field {
       return false;
     }
 
-    $html = '<div class="murmurations-admin-field">'."\n";
-    $html .= '<label for="'.$this->name.'">'.$this->settings['title'].'</label>';
+    if($this->settings['required'] == 'true'){
+      $req_class = ' murmurations-required ';
+      $req_text  = ' (required)';
+    }else{
+      $req_class = '';
+      $req_text  = '';
+    }
+
+    $html = '<div class="murmurations-admin-field'.$req_class.'">'."\n";
+    $html .= '<label for="'.$this->name.'">'.$this->settings['title'];
+    $html .= $req_text;
+    $html .= '</label>';
     $html .= $field;
     $html .= '</div>';
 

@@ -45,6 +45,7 @@ if(!class_exists('LazyLog')){
 
 /* Temporary development logging */
 LazyLog::setSetting('bufferLog',true);
+LazyLog::setSetting('logFile',plugin_dir_path( __FILE__ ) . 'logs/murmurations.log');
 
 $murms_settings = get_option(MURM_SETTINGS_OPT_KEY);
 

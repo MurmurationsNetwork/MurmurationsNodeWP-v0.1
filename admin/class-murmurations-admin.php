@@ -83,16 +83,22 @@ class Murmurations_Admin {
 
     $schema = $this->core->load_schema();
     $data = $this->core->load_data();
-    $networks = $this->core->load_networks();
 
-    foreach ($networks as $url => $network) {
-      $network_options[] = $network['name'];
+
+    if($this->core->settings['enable_networks'] == 'true'){
+
+      $networks = $this->core->load_networks();
+
+      foreach ($networks as $url => $network) {
+        $network_options[] = $network['name'];
+      }
+
+      llog($network_options,"Network options");
+
+      $schema['networks']['options'] = $network_options;
+      $schema['networks']['multiple'] = true;
+
     }
-
-    llog($network_options,"Network options");
-
-    $schema['networks']['options'] = $network_options;
-    $schema['networks']['multiple'] = true;
 
     llog($schema);
 
@@ -110,6 +116,7 @@ class Murmurations_Admin {
       $field_settings = array(
         'type' => $field['type'],
         'inputAs' => $field['inputAs'],
+        'required' => $field['required'],
         'current_value' => $data[$key],
         'title' => $field['title'],
         'multiple' => $field['multiple'],
@@ -129,7 +136,7 @@ class Murmurations_Admin {
     ?>
     <div id="addon-fields">
       <?php
-      if($data['networks']){
+      if($this->core->settings['enable_networks'] == 'true' && $data['networks']){
         echo $this->core->make_addon_fields($data['networks']);
       }
       ?>
@@ -147,7 +154,9 @@ class Murmurations_Admin {
 
     // Load the networks list
     //TODO: This is not a good spot for this, and/or it should be conditional on difference between current and new networks data...
-    $networks = $this->core->load_networks();
+    if($this->core->settings['enable_networks'] == 'true'){
+      $networks = $this->core->load_networks();
+    }
 
     // Load the schema to measure against
     $schema = $this->core->load_schemas();
