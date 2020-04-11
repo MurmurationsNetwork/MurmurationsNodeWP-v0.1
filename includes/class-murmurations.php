@@ -214,28 +214,20 @@ class Murmurations_Core extends Murmurations_Environment{
     return $this->json_to_array(file_get_contents($this->get_base_path().$this->settings['addon_fields_file']));
   }
 
-  public function make_json_ld($data = false){
+  
+  public function get_node_json($data = false){
+
     if(!$data){
       $data = $this->data;
     }
 
-    $jld = '{'."\n";
-    $jld .= '"@context": "http://schema.org/",'."\n";
-    $jld .= '"@type": "Organization",'."\n";
-
-    $inter = '';
-    foreach ($data as $key => $value) {
-      $jld .= $inter.'"'.$key.'": "'.$value.'"';
-      $inter = ',';
-    }
-
-    $jld .= '}';
-
-
-    $this->json_ld = $jld;
-    return $jld;
+    $data['@context'] = "http://schema.org/";
+    $data['@type'] = "Organization";
+    $json = json_encode($data);
+    return $json;
 
   }
+
 
   public function log_error($error){
     if(is_callable('llog')){

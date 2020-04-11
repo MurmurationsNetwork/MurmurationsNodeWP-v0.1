@@ -100,27 +100,6 @@ class Murmurations_Public {
 
 	}
 
-  public function show_structured_data(){
-
-    echo "<!-- Murmurations structured data block -->";
-    echo '<script type="application/ld+json">'."\n";
-    echo $this->get_structured_data();
-    echo '</script>'."\n";
-
-  }
-
-  public function get_structured_data(){
-
-    $murm = new Murmurations_Core();
-
-    $murm->load_data();
-
-    $murm->make_json_ld();
-
-    return $murm->json_ld;
-
-  }
-
   public function register_api_route(){
     register_rest_route( 'murmurations/v1', '/get/node', array(
     'methods' => 'GET',
@@ -129,7 +108,9 @@ class Murmurations_Public {
   }
 
   public function api_request(){
-    return $this->get_structured_data();
+    $murm = new Murmurations_Core();
+    $murm->load_data();
+    return $murm->data;
   }
 
 }
