@@ -1,6 +1,8 @@
 
 .murmurations-admin-field{
  padding: 1.5em;
+ clear: both;
+ margin-bottom: 1em;
 }
 
 
@@ -8,11 +10,16 @@
  width: 50%;
  max-width: 150px;
  float:left;
+ padding-right:10px;
 }
-
+.murmurations-admin-field .murms-field-comment{
+ font-size: 0.8em;
+ font-weight: normal;;
+}
 .murmurations-admin-field input,  .murmurations-admin-field textarea,  .murmurations-admin-field div.awesomeplete{
  width: 50%;
  max-width: 500px;
+ padding: 5px;
 }
 
 input.autocomplete-multiple{

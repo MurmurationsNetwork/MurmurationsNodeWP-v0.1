@@ -5,7 +5,7 @@
   "inputAs" : "text",
   "validateAs" : "text",
   "required" : "true",
-  "comment" : ""
+  "comment" : "The name of your project or organisation"
 },
 "url" : {
   "type" :  "string",
@@ -13,14 +13,14 @@
   "inputAs" : "text",
   "validateAs" : "url",
   "required" : "true",
-  "comment" : ""
+  "comment" : "Your website URL"
 },
 "tagline" : {
   "type" :  "string",
   "title" :  "Tagline",
   "inputAs" : "text",
   "validateAs" : "text",
-  "comment" : ""
+  "comment" : "A short description of your project or organisation"
 },
 "mission" : {
   "type" :  "string",
@@ -28,17 +28,17 @@
   "title" :  "Mission",
   "inputAs" : "text",
   "validateAs" : "text",
-  "comment" : ""
+  "comment" : "The mission, purpose, or objective of your project or organisation"
 },
 "nodeTypes" : {
   "type" :  "string",
-  "title" :  "Organization types",
+  "title" :  "Organisation or project types",
   "options" : ["co-op", "social enterprise", "community", "ecovillage", "alliance", "network", "federation", "farm", "school"],
   "multiple" : true,
   "validateAs" : "text",
   "inputAs" : "text",
   "required" : "true",
-  "comment" : ""
+  "comment" : "Examples: co-op, farm, school, community, NGO, etc"
 },
 "location" : {
   "inputAs" :  "text",
@@ -46,7 +46,7 @@
   "maxLength" : 1000,
   "title" :  "Location",
   "validateAs" : "text",
-  "comment" : ""
+  "comment" : "Your location, as specific as possible"
 },
 "lat" : {
   "inputAs" :  "none",
@@ -70,21 +70,21 @@
   "title" :  "Networks",
   "inputAs" : "text",
   "validateAs" : "text",
-  "comment" : ""
+  "comment" : "What networks does this organisation or project belong to?"
 },
 "allies" : {
   "type" :  "string",
-  "title" :  "Allied organization or project web addresses",
+  "title" :  "Allied projects",
   "inputAs" : "text",
   "validateAs" : "text",
-  "comment" : "Enter the URLs of three or more allied organizations or projects, separated by commas"
+  "comment" : "Enter the website addresses of allied organisations or projects (comma separated)"
 },
 "tags" : {
   "type" :  "string",
   "title" :  "Tags",
   "inputAs" : "text",
   "validateAs" : "text",
-  "comment" : ""
+  "comment" : "The most common tags you use to describe your sector or topic (comma separated)"
 },
 "feed" : {
   "type" : "string",

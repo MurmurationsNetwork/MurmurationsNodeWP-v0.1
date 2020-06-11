@@ -118,6 +118,7 @@ class Murmurations_Admin {
         'multiple' => $field['multiple'],
         'options' => $field['options'],
         'maxLength' => $field['maxLength'],
+        'comment' => $field['comment'],
         'elementId' => 'murmurations_'.$key
       );
 

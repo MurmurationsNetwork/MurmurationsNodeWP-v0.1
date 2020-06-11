@@ -71,7 +71,7 @@ class Murmurations_Field {
 
     if($this->settings['required'] == 'true'){
       $req_class = ' murmurations-required ';
-      $req_text  = ' (required)';
+      $req_text  = '*';
     }else{
       $req_class = '';
       $req_text  = '';
@@ -80,6 +80,7 @@ class Murmurations_Field {
     $html = '<div class="murmurations-admin-field'.$req_class.'">'."\n";
     $html .= '<label for="'.$this->name.'">'.$this->settings['title'];
     $html .= $req_text;
+    $html .= '<div class="murms-field-comment">'.$this->settings['comment'].'</div>'."\n";
     $html .= '</label>';
     $html .= $field;
     $html .= '</div>';

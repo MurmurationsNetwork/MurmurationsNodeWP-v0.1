@@ -29,7 +29,8 @@ class Murmurations_Core extends Murmurations_Environment{
 	}
 
   public function load_schema(){
-    $schema = get_option(MURM_SCHEMA_OPT_KEY);
+    //$schema = get_option(MURM_SCHEMA_OPT_KEY);
+    $schema = json_decode(file_get_contents(plugin_dir_path( dirname( __FILE__ ) ) . 'schemas/base.json'),true);
     if($schema){
       $this->schema = $schema;
     }else{
