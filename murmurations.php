@@ -3,8 +3,8 @@
 /**
  * Plugin Name:       Murmurations
  * Plugin URI:        Murmurations.network
- * Description:       Making movement visible
- * Version:           0.1.0-alpha
+ * Description:       Making movements visible
+ * Version:           0.1.0-beta
  * Author:            A. McKenty / Photosynthesis
  * Author URI:        Photosynthesis.ca
  * License:           Peer Production License
@@ -48,8 +48,6 @@ LazyLog::setSetting('bufferLog',true);
 LazyLog::setSetting('logFile',plugin_dir_path( __FILE__ ) . 'logs/murmurations.log');
 
 $murms_settings = get_option(MURM_SETTINGS_OPT_KEY);
-
-llog($murms_settings,'Murmurations settings');
 
 if(is_array($murms_settings) && isset($murms_settings['debug_mode'])){
   if($murms_settings['debug_mode'] == 'on'){

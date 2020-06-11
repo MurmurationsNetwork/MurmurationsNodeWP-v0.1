@@ -15,7 +15,7 @@ class Murmurations_Core extends Murmurations_Environment{
     'api_path' => 'murmurations/v1/get/node',
     'addon_fields_file' => 'schemas/addons.json',
     'base_schema_file' => 'schemas/base.json',
-    'enable_networks' => 'false'
+    'enable_networks' => 'true'
   );
 
 	public function __construct() {
@@ -134,7 +134,7 @@ class Murmurations_Core extends Murmurations_Environment{
   }
 
   /* Generate addon fields based on network memberships list */
-  /* This needs to be mofidied so that:
+  /* This needs to be modified so that:
       When the networks value is changed, it saves the schema locally
   */
 
@@ -214,7 +214,7 @@ class Murmurations_Core extends Murmurations_Environment{
     return $this->json_to_array(file_get_contents($this->get_base_path().$this->settings['addon_fields_file']));
   }
 
-  
+
   public function get_node_json($data = false){
 
     if(!$data){

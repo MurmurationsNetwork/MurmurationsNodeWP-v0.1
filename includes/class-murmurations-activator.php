@@ -15,8 +15,6 @@ class Murmurations_Activator {
       die('No base schema found');
     }
 
-    llog($base_schema,"Base schema from FS");
-
     $data = array();
 
     $wp_data['name'] = get_bloginfo('title');

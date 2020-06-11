@@ -1,15 +1,4 @@
 <?php
-/**
- * Plugin Name:       LazyLogger
- * Plugin URI:        http://photosynthesis.ca/code/LazyLoggerWP
- * Description:       Making wordpress development fun again!
- * Version:           1.0.0
- * Author:            Photosynthesis / Adam McKenty
- * Author URI:        http://photosynthesis.ca
- * License:           GPL 2
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- */
-
 
 function llog($item,$label = null,$severity = "!"){
   LazyLog::log($item,$label,$severity);

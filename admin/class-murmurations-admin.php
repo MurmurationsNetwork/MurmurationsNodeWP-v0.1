@@ -42,13 +42,9 @@ class Murmurations_Admin {
 	 * Register the settings for the admin area. (Currently unused, since we're avoiding the settings API for now)
 	 */
   public function register_settings() {
-    llog('Registering settings in admin class...');
-
   }
 
   public function register_admin_page() {
-
-      llog("Registering admin page...");
 
       $page_title = 'Murmurations';
       $menu_title = 'Murmurations';
@@ -58,7 +54,7 @@ class Murmurations_Admin {
       $icon_url = '';
       $position = 24;
 
-      add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+      add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
   }
 
   public function show_admin_page(){
