@@ -110,7 +110,10 @@ class Murmurations_Public {
   public function api_request(){
     $murm = new Murmurations_Core();
     $murm->load_data();
-    return $murm->data;
+    $data = $murm->data;
+    $data['@context'] = "http://murmurations.network/schema/base.context.jsonld";
+    $data['@id'] =  $data['url'];
+    return $data;
   }
 
 }
