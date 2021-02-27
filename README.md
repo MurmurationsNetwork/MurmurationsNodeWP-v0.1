@@ -1,3 +1,6 @@
+**NB This Wordpress Plugin was designed to work with version 0.1 of Murmurations - We aim to develop an update to work with [version 1.0](https://github.com/MurmurationsNetwork/MurmurationsProtocol), please [get in touch](https://murmurations.network/contact/) if you can help.**
+
+
 # Murmurations
 
 This is the repository for the Murmurations node plugin.
